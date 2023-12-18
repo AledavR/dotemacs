@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name:sci
+# key:sci
+# --
+\times 10^{${1:Exponent}}

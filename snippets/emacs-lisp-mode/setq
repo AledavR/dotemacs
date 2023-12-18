@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: setq 
+# key: setq
+# --
+(${1:$$(yas-choose-value '("setq" "setq-default" "setq-local"))} ${2:variable} ${3:value})
