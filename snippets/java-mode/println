@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: println 
-# key: println
+# key: pl
 # --
 System.out.println(${1:object});
