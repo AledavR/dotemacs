@@ -5,8 +5,7 @@
 
 (defun rc/is-main-latex-file ()
   "Returns t if the current file is the main tex file, nil otherwise"
-  (if (equal (file-name-base buffer-file-name) "main")
-      t nil))
+  (when (equal (file-name-base buffer-file-name) "main") t))
 
 (defun rc/latex-file-subdirectory (filetype)
   "Define the subdirectory in a latex project for the filetype submitted as
@@ -49,6 +48,16 @@ input"
     (let ((filetype (completing-read
 		     "File type: " '("figure" "table" "section") nil t)))
       (rc/latex-insert-file filetype))))
+
+(defun rc/latex-array-separation ()
+  (when (line-contains? "&")
+      (progn
+	(replace-regexp-in-line "&" " & ")
+	(LaTeX-indent-line)
+	(beginning-of-line-text)
+	(left-char 1))))
+
+(advice-add 'LaTeX-insert-item :after #'rc/latex-array-separation)
 
 ;; PACKAGES
 
@@ -100,8 +109,8 @@ input"
        "\\times 10^{?}" cdlatex-position-cursor nil nil t))
     "cdlatex custom commands")
   :init
-  (setq cdlatex-env-alist rc/cdlatex-env-list)
-  (setq cdlatex-command-alist rc/cdlatex-command-list)
+  (setq cdlatex-env-alist rc/cdlatex-env-list
+	cdlatex-command-alist rc/cdlatex-command-list)
   :bind ( :map cdlatex-mode-map
 	  ("C-<return>" . nil)
 	  ("´" . cdlatex-math-symbol)
@@ -111,7 +120,9 @@ input"
   :elpaca (consult-reftex :type git
 			  :host github
 			  :repo "karthink/consult-reftex"))
+
 (use-package citar)
+
 (use-package auctex
   :elpaca ( :pre-build (("./autogen.sh")
 			("./configure"
@@ -144,7 +155,6 @@ Serves as a reminder of how to implement it"
 		  (TeX-delete-dups-by-car
 		   (append rc/tex-symbols-list
 			   tex--prettify-symbols-alist))))
-
   (defun rc/latex-init ()
     "Defines what modes are activated by default when entering AuCtex mode"
     (prettify-symbols-mode)
@@ -183,10 +193,14 @@ Serves as a reminder of how to implement it"
      ("§§§ {1}" ("subsubsection" "subsubsection*"))
      ("¶¶ {1}" ("subparagraph" "subparagraph*"))
      ("¶ {1}" ("paragraph" "paragraph*"))))
-  (setq-default TeX-source-correlate-method 'synctex)
-  (setq-default TeX-source-correlate-start-server t)
-  (setq-default TeX-master nil)
-  (setq-default TeX-view-program-selection '((output-pdf "PDF Tools")))
+  (setq-default TeX-source-correlate-method 'synctex
+		TeX-source-correlate-start-server t
+		TeX-master nil
+		TeX-view-program-selection '((output-pdf "PDF Tools")))
+  ;; (setq-default TeX-source-correlate-method 'synctex)
+  ;; (setq-default TeX-source-correlate-start-server t)
+  ;; (setq-default TeX-master nil)
+  ;; (setq-default TeX-view-program-selection '((output-pdf "PDF Tools")))
   (add-hook 'TeX-after-compilation-finished-functions
 	    #'TeX-revert-document-buffer)
   (eval-after-load 'tex

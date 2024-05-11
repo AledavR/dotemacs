@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Foreign_key
+# key: fk
+# --
+id_$1 ${2:int} foreign key references tb_${3:$1}(id_$1),$0

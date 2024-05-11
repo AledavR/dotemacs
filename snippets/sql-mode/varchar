@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: varchar 
+# key: vc
+# --
+$1 varchar($2),$0

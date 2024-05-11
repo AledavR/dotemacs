@@ -1,0 +1,6 @@
+# key: src
+# name: source_block
+# --
+#+begin_src ${1:lang} :results output
+$>$0
+#+end_src

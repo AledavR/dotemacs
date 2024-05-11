@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: empty_table 
+# key: et
+# --
+create table tb_$1(
+$0
+)

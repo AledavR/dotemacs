@@ -15,7 +15,6 @@
   (company-idle-delay 0.5 "Delay until completions are shown")
   :config
   (global-company-mode)
-  ;; (setq company-idle-delay 0.5)
   ;; weight by frequency
   (setq company-transformers '(company-sort-by-occurrence))
   (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
@@ -26,18 +25,17 @@
       (append (if (consp backend) backend (list backend))
               '(:with company-yasnippet))))
   (setq company-backends
-	(mapcar #'company-mode/backend-with-yas company-backends))
-  )
+	(mapcar #'company-mode/backend-with-yas company-backends)))
 
-(use-package company-quickhelp
-  :custom
-  (company-quickhelp-delay 1)
-  :config
-  (company-quickhelp-mode))
+;; (use-package company-quickhelp
+;;   :custom
+;;   (company-quickhelp-delay 1)
+;;   :config
+;;   (company-quickhelp-mode))
 
 (use-package yasnippet
   :custom
-  (yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (yas-snippet-dirs `(,(concat user-emacs-directory "snippets")))
   :config
   (yas-global-mode 1))
 
@@ -60,8 +58,46 @@
 	    :separate company-keywords
 	    :separate company-capf))))
   :config
+  ;; (add-hook 'java-mode-hook 'eglot-ensure)
+  ;; (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode)
+  (add-hook 'eglot-managed-mode-hook 'hs-minor-mode)
   (add-hook 'eglot-managed-mode-hook 'rc/eglot-mode-hook)
   (add-hook 'eglot-managed-mode-hook 'rc/eglot-keymaps))
+
+;; (use-package eglot-java
+;;   :config
+;;   (add-hook 'eglot-java-mode-hook 'eglot-java-mode)
+;;   ) ; Not working CHECK LATER
+
+;; (add-to-list 'file-name-handler-alist '("\\`jdt://" . eglot-java--jdt-uri-handler))
+;; (defun eglot-java--jdt-uri-handler (_operation &rest args)
+;;   "Support Eclipse jdtls `jdt://' uri scheme."
+;;   (let* ((uri (car args))
+;;          (cache-dir (expand-file-name ".eglot-java" (temporary-file-directory)))
+;;          (source-file
+;;           (expand-file-name
+;;            (eglot-java--make-path
+;;             cache-dir
+;;             (save-match-data
+;; 	      (when (string-match "jdt://contents/\\(.*?\\)/\\(.*\\)\.class\\?" uri)
+;;                 (format "%s.java" (replace-regexp-in-string "/" "." (match-string 2 uri) t t))))))))
+;;     (unless (file-readable-p source-file)
+;;       (let ((content (jsonrpc-request (eglot-current-server) :java/classFileContents (list :uri uri)))
+;;             (metadata-file (format "%s.%s.metadata"
+;;                                    (file-name-directory source-file)
+;;                                    (file-name-base source-file))))
+;;         (unless (file-directory-p cache-dir) (make-directory cache-dir t))
+;;         (with-temp-file source-file (insert content))
+;;         (with-temp-file metadata-file (insert uri))))
+;;     source-file))
+
+;; (defun eglot-java--make-path (root-dir &rest path-elements)
+;;   "Compose a path from a base folder ROOT-DIR and a set of items PATH-ELEMENTS."
+;;   (let ((new-path          (expand-file-name root-dir))
+;;         (new-path-elements path-elements))
+;;     (dolist (p new-path-elements)
+;;       (setq new-path (concat (file-name-as-directory new-path) p)))
+;;     new-path))
 
 (use-package smartparens
   :hook 
@@ -70,22 +106,9 @@
   (markdown-mode . smartparens-mode)
   :config
   ;; load default config
-  (require 'smartparens-config)
-  )
+  (require 'smartparens-config))
 
-(use-package skeletor
-  :custom
-  (skeletor-project-directory "~/Documents/Projects")
+(use-package drag-stuff
   :config
-  (skeletor-define-template "latex-article"
-    :title "LaTeX Article"
-    :no-license? t)
-  (skeletor-define-template "LaTeX-APA7"
-    :title "LaTeX APA 7th Article"
-    :no-license? t)
-  (skeletor-define-template "latex-beamer"
-    :title "LaTeX Beamer"
-    :no-license? t))
-
-(use-package magit)
-(use-package transient)
+  (drag-stuff-global-mode 1)
+  (drag-stuff-define-keys))

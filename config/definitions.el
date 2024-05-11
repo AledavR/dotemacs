@@ -9,26 +9,39 @@
   (concat internal-disk "Data/Important/")
   "Important files directory")
 
+(defun line-contains? (string)
+  (s-contains? string
+	       (buffer-substring-no-properties
+		(line-beginning-position)
+		(line-end-position))))
+
+(defun replace-regexp-in-line (regexp replacement)
+  (replace-regexp regexp replacement nil
+   (line-beginning-position)
+   (line-end-position)))
+
 (defun config-visit ()
   "Visit the default init.el file"
   (interactive)
-  (find-file "~/.emacs.d/init.el"))
-(defun config-reload ()
-  "Reloads ~/.emacs.d/config.org at runtine"
-  (interactive)
-  (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+  (find-file (concat user-emacs-directory "/init.el")))
+
+;; (defun config-reload ()
+;;   "Reloads ~/.emacs.d/config.org at runtine"
+;;   (interactive)
+;;   (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+
 (defun create-scratch-buffer ()
   "Create a scratch buffer"
   (interactive)
   (switch-to-buffer (get-buffer-create "*scratch*"))
   (lisp-interaction-mode))
+
 (defun emacs-lisp-pretty-icons ()
   "Pretty icons for emacs-lisp-mode"
   (setq prettify-symbols-alist '(("nil" . "∅")
 				 ("t" . "⊤")
 				 ("lambda" . "λ")
-				 ("" . "Ⓟ")
-				 ))
+				 ("" . "Ⓟ")))
   (prettify-symbols-mode))
 
 ;; (defun set-frame-size-according-to-resolution ()

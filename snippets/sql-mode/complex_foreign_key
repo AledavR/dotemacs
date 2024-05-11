@@ -1,0 +1,6 @@
+# key: cfk
+# name: complex_foreign_key
+# --
+id_$1 ${2:int} primary key,
+constraint fk_$1 foreign key(id_$1)
+references tb_$3(id_$3),$0

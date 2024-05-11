@@ -37,3 +37,5 @@
   (marginalia-mode))
 
 (use-package consult)
+
+(use-package consult-project-extra)

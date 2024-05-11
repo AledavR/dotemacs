@@ -1,12 +1,11 @@
 (use-package general
-  :config
-
+ :config
+ (define-key key-translation-map (kbd "<f8>") #'event-apply-super-modifier)
   ;; General keybindings
   (general-create-definer rc/leader-keys
     :states '(normal visual emacs)
     :keymaps 'override
-    :prefix "SPC"
-    )
+    :prefix "SPC")
 
   (rc/leader-keys
     "RET" '(consult-bookmark :which-key "search bookmark")
@@ -16,15 +15,18 @@
 
     "f" '(:ignore t :which-key "file")
     "ff" '(find-file :which-key "search file")
+    "fd" '(delete-file :which-key "delete file")
     "fr" '(consult-recent-file :which-key "recent files")
     "fw" '(save-buffer :which-key "save file")
     "fW" '(write-file :which-key "save file as")
 
     "b" '(:ignore t :which-key "buffer")
+    "bb" '(evil-switch-to-windows-last-buffer :which-key "switch to last buffer")
     "bc" '(kill-current-buffer :which-key "kill buffer")
     "bC" '(kill-buffer-and-window :which-key "kill buffer and window")
     "be" '(eval-buffer :which-key "eval buffer")
     "bs" '(consult-buffer :which-key "switch buffer")
+    "bi" '(insert-buffer :which-key "insert buffer")
 
     "w"  '(:ignore t :which-key "window")
     ;; Creation and deletion
@@ -61,7 +63,7 @@
     "pK" '(project-kill-buffers :which-key "kill buffers")
     "pb" '(consult-project-buffer :which-key "buffers")
     "pf" '(project-find-file :which-key "files")
-    "pf" '(project-query-replace-regexp :which-key "replace query")
+    "pr" '(project-query-replace-regexp :which-key "replace query")
     "pd" '(project-find-dir :which-key "directory")
     "pD" '(project-dired :which-key "dired")
     "ps" '(project-shell-command :which-key "command")
@@ -80,6 +82,7 @@
     "sm" '(consult-mark :which-key "marks")
     "sq" '(consult-kmacro :which-key "macros")
     "sf" '(consult-fd :which-key "open here")
+    "si" '(consult-imenu :which-key "symbols")
 
     "t" '(:ignore t :which-key "tab")
     "tn" '(tab-new :which-key "new")
@@ -91,6 +94,7 @@
     "tg" '(tab-group :which-key "group")
     "tf" '(ffap-other-tab :which-key "open file on another tab")
     "tD" '(tab-detach :which-key "detach")
+    "tm" '(tab-bar-mode :which-key "deactivate tabs")
 
     "h" '(:ignore t :which-key "help")
     "hv" '(describe-variable :which-key "variable")
@@ -140,36 +144,29 @@
 
   (general-create-definer rc/local-leader-keys
     :states '(normal visual emacs)
-    :prefix "¿"
-    )
+    :prefix "<f9>")
 
   (rc/local-leader-keys LaTeX-mode-map
     :states '(normal visual emacs insert)
-   "v" '(TeX-view :which-key "View PDF file")
-   "e" '(LaTeX-environment :which-key "Insert environment")
-   "m" '(TeX-insert-macro :which-key "Insert macro")
-   "s" '(LaTeX-section :which-key "Insert section")
-   "_" '(TeX-master-file-ask :which-key "Define master file")
-   "a" '(TeX-command-run-all :which-key "Compile all files")
-   "t" '(reftex-toc :which-key "Open TOC")
-   "i" '(reftex-index :which-key "Insert index command")
-   "f" '(:ignore t :which-key "fold")
-   "fe" '(TeX-fold-env :which-key "Fold environment")
-   "ff" '(TeX-fold-dwim :which-key "Fold dwim")
-   "fb" '(TeX-fold-buffer :which-key "Fold complete buffer")
-   "fB" '(TeX-fold-clearout-buffer :which-key "Undo folds on buffer")
-   "fr" '(TeX-fold-region :which-key "Fold region")
-   "fR" '(TeX-fold-clearout-region :which-key "Fold region")
-   "fm" '(TeX-fold-macro :which-key "Fold macro")
-   "ne" '(LaTeX-narrow-to-environment :which-key "Narrow to environment")
-   "ng" '(TeX-narrow-to-group :which-key "Narrow to group"))
-
-  ;; ;; LaTeX mode keybinds
-  ;; (general-create-definer rc/leader-latex
-  ;;   :states '(normal visual emacs)
-  ;;   :keymaps 'LaTeX-mode-map
-  ;;   :prefix "SPC"
-  ;;   )
+    "v" '(TeX-view :which-key "View PDF file")
+    "e" '(LaTeX-environment :which-key "Insert environment")
+    "m" '(TeX-insert-macro :which-key "Insert macro")
+    "s" '(LaTeX-section :which-key "Insert section")
+    "_" '(TeX-master-file-ask :which-key "Define master file")
+    "a" '(TeX-command-run-all :which-key "Compile all files")
+    "t" '(reftex-toc :which-key "Open TOC")
+    "i" '(reftex-index :which-key "Insert index command")
+    "f" '(:ignore t :which-key "fold")
+    "fe" '(TeX-fold-env :which-key "Fold environment")
+    "ff" '(TeX-fold-dwim :which-key "Fold dwim")
+    "fb" '(TeX-fold-buffer :which-key "Fold complete buffer")
+    "fB" '(TeX-fold-clearout-buffer :which-key "Undo folds on buffer")
+    "fr" '(TeX-fold-region :which-key "Fold region")
+    "fR" '(TeX-fold-clearout-region :which-key "Fold region")
+    "fm" '(TeX-fold-macro :which-key "Fold macro")
+    "n"  '(:ignore t :which-key "narrow")
+    "ne" '(LaTeX-narrow-to-environment :which-key "Narrow to environment")
+    "ng" '(TeX-narrow-to-group :which-key "Narrow to group"))
 
   (general-define-key
    :keymaps 'override
@@ -177,29 +174,7 @@
 
   (general-define-key
    :keymaps 'LaTeX-mode-map
-   "C-<return>" 'LaTeX-insert-item)
-
-  ;; (rc/leader-latex
-  ;;  "m" '(:ignore t :which-key "latex")
-  ;;  "mv" '(TeX-view :which-key "View PDF file")
-  ;;  "me" '(LaTeX-environment :which-key "Insert environment")
-  ;;  "mm" '(TeX-insert-macro :which-key "Insert macro")
-  ;;  "ms" '(LaTeX-section :which-key "Insert section")
-  ;;  "m_" '(TeX-master-file-ask :which-key "Define master file")
-  ;;  "ma" '(TeX-command-run-all :which-key "Compile all files")
-  ;;  "mt" '(reftex-toc :which-key "Open TOC")
-  ;;  "mi" '(reftex-index :which-key "Insert index command")
-  ;;  "mf" '(:ignore t :which-key "fold")
-  ;;  "mfe" '(TeX-fold-env :which-key "Fold environment")
-  ;;  "mff" '(TeX-fold-dwim :which-key "Fold dwim")
-  ;;  "mfb" '(TeX-fold-buffer :which-key "Fold complete buffer")
-  ;;  "mfB" '(TeX-fold-clearout-buffer :which-key "Undo folds on buffer")
-  ;;  "mfr" '(TeX-fold-region :which-key "Fold region")
-  ;;  "mfR" '(TeX-fold-clearout-region :which-key "Fold region")
-  ;;  "mfm" '(TeX-fold-macro :which-key "Fold macro")
-  ;;  "xne" '(LaTeX-narrow-to-environment :which-key "Narrow to environment")
-  ;;  "xng" '(TeX-narrow-to-group :which-key "Narrow to group"))
-  )
+   "C-<return>" 'LaTeX-insert-item))
 
 (use-package evil
   :init
@@ -220,8 +195,8 @@
   ;; Use visual line motions even outside of visual-line-mode buffers
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-  ;;(evil-set-initial-state 'elfeed-search-mode 'normal)
-  ;;(evil-set-initial-state 'messages-buffer-mode 'normal)
+  ;; (evil-set-initial-state 'elfeed-search-mode 'normal)
+  ;; (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'emacs)
   ;; (eval-after-load 'evil-maps
   ;;   '(progn
@@ -233,7 +208,6 @@
   ;;  (evil-define-key '(normal insert) org-mode-map (kbd "M-<return>")
   ;;     '+org/insert-item-above)
   )
-
 
 ;; (use-package evil-traces
 ;;   :init
@@ -274,9 +248,15 @@
   :config
   (evil-collection-init))
 
-;; (use-package evil-adjust
-;;   :elpaca (evil-adjust :type git :host github :repo "troyp/evil-adjust")
-;;   :after evil
-;;   :config
-;;   (require 'evil-adjust)
-;;   (evil-adjust))
+(use-package evil-mc)
+
+(unless (display-graphic-p)
+  (use-package evil-terminal-cursor-changer
+    :custom
+    (evil-motion-state-cursor 'box)
+    (evil-visual-state-cursor 'box)
+    (evil-normal-state-cursor 'box)
+    (evil-insert-state-cursor 'bar)
+    (evil-emacs-state-cursor  'hbar)
+    :config
+    (evil-terminal-cursor-changer-activate)))

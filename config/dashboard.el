@@ -15,10 +15,18 @@ names an existing file."
   (defun protect-dashboard ()
     (define-key dashboard-mode-map (kbd "q") 'dashboard-refresh-buffer)
     )
+  (defun rc/dashboard-keymaps ()
+    (general-define-key
+     :keymaps 'dashboard-mode-map
+     :states '(normal emacs)
+     "f" 'find-file
+     "r" 'consult-recent-file
+     "p" 'project-switch-project))
   :config
   (add-hook 'elpaca-after-init-hook #'dashboard-insert-startupify-lists)
   (add-hook 'elpaca-after-init-hook #'dashboard-initialize)
   (add-hook 'dashboard-mode-hook 'protect-dashboard)
+  (add-hook 'dashboard-mode-hook 'rc/dashboard-keymaps)
   (add-hook 'dashboard-after-initialize-hook 'dashboard-refresh-buffer)
   (setq
    dashboard-center-content t

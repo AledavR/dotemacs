@@ -14,8 +14,8 @@
   ;;    (t variable-pitch 1.1)))
   :config
   (mapc #'disable-theme custom-enabled-themes)
-  (ef-themes-select 'ef-elea-light)
-  (setq ef-themes-to-toggle '(ef-elea-dark ef-elea-light))
+  (ef-themes-select 'ef-elea-dark)
+  (setq ef-themes-to-toggle '(ef-elea-dark ef-cyprus))
   )
 ;; Make customisations that affect Emacs faces BEFORE loading a theme
 ;; (any change needs a theme re-load to take effect).
@@ -52,3 +52,4 @@
 ;; (use-package origami)
 (use-package writeroom-mode)
 
+(use-package treemacs)
