@@ -7,6 +7,7 @@
   :custom
   (org-todo-keywords '((sequence "IDEA" "TODO" "|" "DONE")))
   (org-agenda-files '("~/Dropbox/org"))
+  (org-log-done 'time)
   :config
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
