@@ -1,7 +1,7 @@
-(use-package eat
-  :elpaca (emacs-eat :type git
-		     :host codeberg
-		     :repo "akib/emacs-eat"))
+;; (use-package eat
+;;   :elpaca (emacs-eat :type git
+;; 		     :host codeberg
+;; 		     :repo "akib/emacs-eat"))
 
 (use-package org-sliced-images
   :elpaca (org-sliced-images :type git
