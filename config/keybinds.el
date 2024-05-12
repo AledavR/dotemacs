@@ -21,7 +21,8 @@
     "fW" '(write-file :which-key "save file as")
 
     "b" '(:ignore t :which-key "buffer")
-    "bb" '(evil-switch-to-windows-last-buffer :which-key "switch to last buffer")
+    "bb" '(evil-switch-to-windows-last-buffer
+	   :which-key "switch to last buffer")
     "bc" '(kill-current-buffer :which-key "kill buffer")
     "bC" '(kill-buffer-and-window :which-key "kill buffer and window")
     "be" '(eval-buffer :which-key "eval buffer")
@@ -186,6 +187,11 @@
   (evil-undo-system 'undo-redo) 
   :config
   (evil-mode 1)
+
+  ;; Save macros to a fset (These are not necessary just an example)
+  ;; (fset 'format-text-80-columns [?i ?f ?o ?o ?b ?a ?r escape])
+  ;; (evil-set-register ?f (kmacro "7 0 l w i <return> <escape>"))
+
   (define-key
    evil-insert-state-map (kbd "C-g")
    'evil-normal-state)

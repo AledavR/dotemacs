@@ -36,6 +36,15 @@
   (switch-to-buffer (get-buffer-create "*scratch*"))
   (lisp-interaction-mode))
 
+(defun rc/export-code-block-for-message (start end)
+  "Copy current region and format it to a markdown codeblock"
+  (interactive "r")
+  (setq code-block (buffer-substring start end))
+  (setq code-block-formatted (concat "```\n" code-block "```"))
+  (deactivate-mark)
+  (kill-new code-block-formatted))
+
+
 (defun emacs-lisp-pretty-icons ()
   "Pretty icons for emacs-lisp-mode"
   (setq prettify-symbols-alist '(("nil" . "∅")

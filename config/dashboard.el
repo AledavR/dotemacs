@@ -21,6 +21,8 @@ names an existing file."
      :states '(normal emacs)
      "f" 'find-file
      "r" 'consult-recent-file
+     "a" 'org-agenda
+     "c" 'org-capture
      "p" 'project-switch-project))
   :config
   (add-hook 'elpaca-after-init-hook #'dashboard-insert-startupify-lists)

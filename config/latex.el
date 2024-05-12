@@ -140,21 +140,42 @@ Serves as a reminder of how to implement it"
       (TeX-argument-prompt optional prompt "Funcion trigonometrica")
       '("sen" "cos" "sec" "csc" "tg" "ctg"))
      optional))
+
   (defun rc/auctex-macros ()
     "Defines custom macros to insert in LaTeX mode"
     (TeX-add-symbols
      '("texcount" (rc/TeX-arg-trig))
      '("texcounter" [ (TeX-arg-corner "Esto es un prompt: ") ] TeX-arg-counter )))
+
   (defvar rc/tex-symbols-list
     '(("\\blank" . ?—)
       ("\\otimes" . ?⨂ ))
     "List of custom symbols for LaTeX")
+
   (defun rc/append-tex-symbols-list ()
     "Appends the custom symbols list to the default list removing duplicates"
     (setq-default tex--prettify-symbols-alist
 		  (TeX-delete-dups-by-car
 		   (append rc/tex-symbols-list
 			   tex--prettify-symbols-alist))))
+
+  (defun rc/append-region-to-tex-section (start end)
+    "Append file to an existing section file."
+    (interactive "r")
+    (setq section (rc/latex-file-subdirectory "section"))
+    (append-to-file start end section)
+    (kill-region start end))
+
+  (defun rc/move-region-to-tex-section (start end section)
+    "Moves a region in a tex to a section file, deletes the region and
+includes the new file in the main file."
+    (interactive "r\nsSection: ")
+    (setq file-path-prefix (if (rc/is-main-latex-file) "./" "../"))
+    (setq section (concat file-path-prefix "sections/" section ".tex"))
+    (write-region start end section t)
+    (kill-region start end)
+    (insert (concat "\\include{" section "}")))
+
   (defun rc/latex-init ()
     "Defines what modes are activated by default when entering AuCtex mode"
     (prettify-symbols-mode)
