@@ -5,7 +5,7 @@
   :elpaca nil
   :bind ("C-c a" . org-agenda)
   :custom
-  (org-todo-keywords '((sequence "IDEA" "TODO" "|" "DONE")))
+  (org-todo-keywords '((sequence "IDEA" "TODO" "|" "DONE" "CANCELED" "DROP")))
   (org-agenda-files '("~/Dropbox/org"))
   (org-log-done 'time)
   :config
@@ -13,12 +13,22 @@
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
   (add-hook 'org-babel-after-execute-hook 'org-toggle-inline-images))
 
+(use-package org-bullets
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
 (use-package org-capture
   :ensure nil
   :after org
   :elpaca nil
   :bind ("C-c c" . org-capture)
   :preface
+  ;; (defun rc/idea-to-task (class)
+  ;;   (interactive
+  ;;    (list (completing-read "Tipo de tarea: " '("Universidad" "Personal"))))
+  ;;   (setq agenda-file "~/Dropbox/org/agenda.org")
+  ;;   (let ((pos (save-excursion agenda-file class)))
+  ;;     (org-refile nil nil (list class nil agenda-file pos))))
   (defvar my/org-agenda-file
     "~/Dropbox/org/agenda.org")
   (defvar my/org-ideas-file
@@ -45,6 +55,20 @@
   (defvar my/org-deadline-task-template-with-file
     (concat my/org-deadline-task-template my/org-file-link)
     "Plantilla de tareas con fecha limite y archivo.")
+  (defun rc/refile-to (file headline)
+    "Move current headline to specified location"
+    (let ((pos (save-excursion
+		 (find-file file)
+		 (org-find-exact-headline-in-buffer headline))))
+      (org-refile nil nil (list headline file nil pos)))
+    (org-save-all-org-buffers)
+    (switch-to-buffer (current-buffer)))
+  (defun rc/idea-to-task (class)
+    "Promotes an idea to a pending task"
+    (interactive
+     (list (completing-read "Tipo de tarea:" '("Universidad" "Personal"))))
+    (org-todo "TODO")
+    (my/refile-to my/org-agenda-file class))
   :custom
   (org-capture-templates
    `(

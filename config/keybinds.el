@@ -27,6 +27,7 @@
     "bC" '(kill-buffer-and-window :which-key "kill buffer and window")
     "be" '(eval-buffer :which-key "eval buffer")
     "bs" '(consult-buffer :which-key "switch buffer")
+    "bm" '(buffer-menu :which-key "buffer menu")
     "bi" '(insert-buffer :which-key "insert buffer")
 
     "w"  '(:ignore t :which-key "window")
