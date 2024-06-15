@@ -23,7 +23,7 @@
   (backward-delete-char-untabify-method 'nil)
   (initial-scratch-message ";; Scratch buffer for emacs-lisp-mode")
   (frame-resize-pixelwise t)
-  (fast-but-imprecise-scrolling t)
+  ;; (fast-but-imprecise-scrolling t)	
   (tab-always-indent 'complete)
   (use-dialog-box nil) ; No GUI elements
   (history-length 25)
@@ -64,7 +64,7 @@
 	       '(fullscreen . maximized))
   ;; Font family and size
   (add-to-list 'default-frame-alist
-	       '(font . "mononoki Nerd Font Mono:style=Regular"))
+	       '(font . "mononoki Nerd Font:style=Regular"))
   ;; (add-to-list 'recentf-exclude "bookmarks")
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -125,12 +125,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("45e409674661674c12070af5f8ef71741599eeb9fccd84557f1b822509f3b100" "4ae2387bb3bcfb3419d88f586b41c1fef3ff8620b80d06d53f98ec30df469407" "38457f8afb329ce87e1a41d31e155acb4dcdf5ee6a1ea703d401f2042747a69f" default))
+   '("45e409674661674c12070af5f8ef71741599eeb9fccd84557f1b822509f3b100"
+     "4ae2387bb3bcfb3419d88f586b41c1fef3ff8620b80d06d53f98ec30df469407"
+     "38457f8afb329ce87e1a41d31e155acb4dcdf5ee6a1ea703d401f2042747a69f" default))
  '(ignored-local-variable-values '((TeX-master . t)))
+ '(org-safe-remote-resources '("\\`https://fniessen\\.github\\.io\\(?:/\\|\\'\\)"))
  '(package-selected-packages '(eglot auctex))
  '(safe-local-variable-values
-   '((eval TeX-run-style-hooks "beamer")
-     (TeX-master . "../main"))))
+   '((eval TeX-run-style-hooks "beamer") (TeX-master . "../main"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -1,14 +1,28 @@
 (use-package general
- :config
- (define-key key-translation-map (kbd "<f8>") #'event-apply-super-modifier)
+  ;; :ensure (:wait t)
+  :demand t
+  :config
+  (general-evil-setup)
+  (define-key key-translation-map (kbd "<f8>") #'event-apply-super-modifier)
   ;; General keybindings
   (general-create-definer rc/leader-keys
-    :states '(normal visual emacs)
+    :states '(normal visual emacs insert)
     :keymaps 'override
-    :prefix "SPC")
+    :prefix "SPC"
+    :global-prefix "M-SPC")
+
+  (general-create-definer rc/local-leader-keys
+    :states '(normal visual emacs insert)
+    :keymaps 'override
+    :prefix ","
+    :global-prefix "M-,")
+
+  (general-define-key
+   :states 'insert
+   "C-g" 'evil-normal-state)
 
   (rc/leader-keys
-    "RET" '(consult-bookmark :which-key "search bookmark")
+    "RET" '(bookmark-jump :which-key "search bookmark")
 
     "a" '(:ignore t :which-key "applications")
     "af"'(elfeed :which-key "elfeed")
@@ -16,28 +30,28 @@
     "f" '(:ignore t :which-key "file")
     "ff" '(find-file :which-key "search file")
     "fd" '(delete-file :which-key "delete file")
-    "fr" '(consult-recent-file :which-key "recent files")
     "fw" '(save-buffer :which-key "save file")
     "fW" '(write-file :which-key "save file as")
+    "fr" '(consult-recent-file :which-key "recent files")
 
     "b" '(:ignore t :which-key "buffer")
-    "bb" '(evil-switch-to-windows-last-buffer
-	   :which-key "switch to last buffer")
     "bc" '(kill-current-buffer :which-key "kill buffer")
     "bC" '(kill-buffer-and-window :which-key "kill buffer and window")
     "be" '(eval-buffer :which-key "eval buffer")
-    "bs" '(consult-buffer :which-key "switch buffer")
     "bm" '(buffer-menu :which-key "buffer menu")
     "bi" '(insert-buffer :which-key "insert buffer")
-
+    "bs" '(consult-buffer :which-key "switch buffer")
+    "bb" '(evil-switch-to-windows-last-buffer
+	   :which-key "switch to last buffer")
+    
     "w"  '(:ignore t :which-key "window")
     ;; Creation and deletion
     "wv" '(evil-window-vsplit :which-key "window vsplit")
     "ws" '(evil-window-split :which-key "window hsplit")
     "wc" '(evil-window-delete :which-key "close window")
+    "wn" '(evil-window-new :which-key "new scratch windows")
     "wf" '(ffap-other-window :which-key "open file in other window")
     "wo" '(delete-other-windows :which-key "delete other windows")
-    "wn" '(evil-window-new :which-key "new scratch windows")
     ;; Position control
     "wx" '(evil-window-exchange :which-key "switch windows")
     "wr" '(evil-window-rotate-downwards :which-key "rotate down")
@@ -49,6 +63,7 @@
     ;; Height and width
     "w_" '(evil-window-set-width :which-key "maximize width")
     "w|" '(evil-window-set-height :which-key "maximize height")
+    "w=" '(balance-windows :which-key "balance windows")
     ;; Focus control
     "ww" '(evil-window-next :which-key "next")
     "wp" '(evil-window-prev :which-key "prev")
@@ -144,9 +159,6 @@
     "qA" '(about-emacs :which-key "about"))
   
 
-  (general-create-definer rc/local-leader-keys
-    :states '(normal visual emacs)
-    :prefix "<f9>")
 
   (rc/local-leader-keys LaTeX-mode-map
     :states '(normal visual emacs insert)
@@ -173,7 +185,7 @@
   (general-define-key
    :keymaps 'override
    "<f6>" 'toggle-menu-bar-mode-from-frame)
-
+  
   (general-define-key
    :keymaps 'LaTeX-mode-map
    "C-<return>" 'LaTeX-insert-item))

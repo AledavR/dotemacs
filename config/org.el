@@ -5,9 +5,10 @@
   :elpaca nil
   :bind ("C-c a" . org-agenda)
   :custom
-  (org-todo-keywords '((sequence "IDEA" "TODO" "|" "DONE" "CANCELED" "DROP")))
+  (org-todo-keywords '((sequence "IDEA" "TODO" "|" "DONE" "DROP")))
   (org-agenda-files '("~/Dropbox/org"))
   (org-log-done 'time)
+  (org-highlight-latex-and-related '(latex script entities))
   :config
   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
@@ -68,7 +69,7 @@
     (interactive
      (list (completing-read "Tipo de tarea:" '("Universidad" "Personal"))))
     (org-todo "TODO")
-    (my/refile-to my/org-agenda-file class))
+    (rc/refile-to my/org-agenda-file class))
   :custom
   (org-capture-templates
    `(
